@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Endocrine Conditions — Clinical Reference</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d1117;
+    --surface: #161b22;
+    --surface2: #1e2530;
+    --border: #2a3040;
+    --accent: #38bdf8;
+    --text: #e6edf3;
+    --text-muted: #8b949e;
+    --text-dim: #484f58;
+    --cat-physio: #38bdf8;
+    --cat-symptoms: #f472b6;
+    --cat-tests: #34d399;
+    --cat-treatment: #fb923c;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+  }
+
+  /* HEADER */
+  header {
+    background: linear-gradient(135deg, #0d1117 0%, #161b2e 50%, #0d1117 100%);
+    border-bottom: 1px solid var(--border);
+    padding: 24px 20px 18px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-inner { max-width: 900px; margin: 0 auto; }
+  .header-top { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .header-icon {
+    width: 40px; height: 40px;
+    background: linear-gradient(135deg, #38bdf8, #818cf8);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  h1 { font-family: 'DM Serif Display', serif; font-size: clamp(20px,4vw,26px); }
+  h1 span { color: var(--accent); }
+  .subtitle { font-size: 11px; color: var(--text-muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  /* SEARCH */
+  .search-wrap { position: relative; }
+  .search-wrap svg { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+  #search {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 11px 12px 11px 38px;
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  #search:focus { border-color: var(--accent); }
+  #search::placeholder { color: var(--text-dim); }
+
+  /* FILTERS */
+  .filter-row { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .filter-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    padding: 5px 14px;
+    font-size: 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .filter-btn:hover, .filter-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #0d1117;
+  }
+
+  /* LEGEND */
+  .legend {
+    display: flex; gap: 14px; flex-wrap: wrap;
+    padding: 10px 20px;
+    max-width: 900px; margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-muted); }
+  .legend-dot { width: 8px; height: 8px; border-radius: 2px; }
+
+  /* COUNT */
+  .count-badge { max-width: 900px; margin: 12px auto 0; padding: 0 20px; font-size: 12px; color: var(--text-muted); }
+
+  /* MAIN */
+  main { max-width: 900px; margin: 0 auto; padding: 16px 16px 60px; }
+
+  /* CARD via details/summary */
+  details {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+  details:hover { border-color: #3a4355; }
+  details[open] { border-color: #3a4355; }
+
+  summary {
+    display: flex;
+    align-items: center;
+    padding: 18px 20px;
+    cursor: pointer;
+    gap: 14px;
+    list-style: none;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
+  }
+  summary::-webkit-details-marker { display: none; }
+
+  .card-icon {
+    width: 44px; height: 44px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+  }
+  .card-title-wrap { flex: 1; min-width: 0; }
+  .card-title { font-family: 'DM Serif Display', serif; font-size: clamp(16px,3vw,19px); }
+  .card-tag { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-muted); margin-top: 3px; }
+  .chevron { color: var(--text-dim); transition: transform 0.3s; flex-shrink: 0; }
+  details[open] .chevron { transform: rotate(180deg); }
+
+  /* BODY */
+  .card-body {
+    border-top: 1px solid var(--border);
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+  }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(-6px); } to { opacity:1; transform:translateY(0); } }
+
+  .sections-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+  @media (min-width: 640px) { .sections-grid { grid-template-columns: 1fr 1fr; } }
+
+  .section {
+    background: var(--surface2);
+    border-radius: 12px;
+    padding: 16px;
+    border-left: 3px solid transparent;
+  }
+  .section.full { grid-column: 1 / -1; }
+  .section-physio { border-color: var(--cat-physio); }
+  .section-symptoms { border-color: var(--cat-symptoms); }
+  .section-tests { border-color: var(--cat-tests); }
+  .section-treatment { border-color: var(--cat-treatment); }
+
+  .section-label {
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .section-physio .section-label { color: var(--cat-physio); }
+  .section-symptoms .section-label { color: var(--cat-symptoms); }
+  .section-tests .section-label { color: var(--cat-tests); }
+  .section-treatment .section-label { color: var(--cat-treatment); }
+
+  .physio-text { font-size: 13.5px; color: var(--text); line-height: 1.65; }
+
+  .section ul { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+  .section ul li { font-size: 13.5px; color: var(--text); line-height: 1.45; padding-left: 14px; position: relative; }
+  .section ul li::before { content: '›'; position: absolute; left: 0; font-weight: 600; }
+  .section-symptoms ul li::before { color: var(--cat-symptoms); }
+  .section-tests ul li::before { color: var(--cat-tests); }
+  .section-treatment ul li::before { color: var(--cat-treatment); }
+
+  /* HIDDEN */
+  .hidden { display: none !important; }
+
+  .no-results { text-align: center; padding: 60px 20px; color: var(--text-muted); }
+  .no-results .icon { font-size: 40px; margin-bottom: 12px; }
+
+  mark { background: rgba(56,189,248,0.25); color: var(--accent); border-radius: 2px; padding: 0 1px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="header-top">
+      <div class="header-icon">⚗️</div>
+      <div>
+        <h1>Endocrine <span>Conditions</span></h1>
+        <div class="subtitle">Deakin MD · Clinical Reference · ELC 1–2</div>
+      </div>
+    </div>
+    <div class="search-wrap">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input type="text" id="search" placeholder="Search condition, symptom, test…" autocomplete="off" spellcheck="false">
+    </div>
+    <div class="filter-row" id="filterRow">
+      <button class="filter-btn active" data-cat="all">All</button>
+      <button class="filter-btn" data-cat="thyroid">Thyroid</button>
+      <button class="filter-btn" data-cat="parathyroid">Parathyroid</button>
+      <button class="filter-btn" data-cat="diabetes">Diabetes</button>
+      <button class="filter-btn" data-cat="pituitary">Pituitary</button>
+      <button class="filter-btn" data-cat="adrenal">Adrenal</button>
+      <button class="filter-btn" data-cat="neoplasia">Neoplasia</button>
+    </div>
+  </div>
+</header>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:var(--cat-physio)"></div>Physiology</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--cat-symptoms)"></div>Symptoms</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--cat-tests)"></div>Investigations</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--cat-treatment)"></div>Treatment</div>
+</div>
+
+<div class="count-badge" id="countBadge">15 conditions</div>
+
+<main>
+<div id="cardContainer">
+
+<!-- ==================== HYPOTHYROIDISM ==================== -->
+<details data-cat="thyroid" data-text="hypothyroidism thyroid hashimoto t3 t4 tsh levothyroxine fatigue weight gain cold intolerance constipation bradycardia myxoedema goitre">
+<summary>
+  <div class="card-icon" style="background:linear-gradient(135deg,#1e3a5f,#0c4a6e)">🦋</div>
+  <div class="card-title-wrap">
+    <div class="card-title">Hypothyroidism</div>
+    <div class="card-tag">Thyroid</div>
+  </div>
+  <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+</summary>
+<div class="card-body">
+  <div class="sections-grid">
+    <div class="section section-physio full">
+      <div class="section-label">⚙️ Physiology &amp; Pathophysiology</div>
+      <div class="physio-text">The thyroid gland produces insufficient T3 and T4. Most common cause: Hashimoto's thyroiditis (autoimmune destruction of thyroid tissue — anti-TPO antibodies). Other causes: post-radioiodine/surgical ablation, iodine deficiency, and secondary/tertiary causes (pituitary or hypothalamic failure). Low T3/T4 removes negative feedback on the pituitary → TSH rises (primary). Reduced thyroid hormone slows cellular metabolism affecting virtually every organ system.</div>
+    </div>
+    <div class="section section-symptoms">
+      <div class="section-label">🩺 Clinical Features</div>
+      <ul>
+        <li>Fatigue &amp; lethargy</li>
+        <li>Weight gain</li>
+        <li>Cold intolerance</li>
+        <li>Dry skin &amp; hair, hair loss</li>
+        <li>Constipation</li>
+        <li>Bradycardia</li>
+        <li>Menstrual irregularity</li>
+        <li>Myxoedema (periorbital oedema, hoarse voice)</li>
+        <li>Depression, cognitive slowing</li>
+        <li>Delayed tendon reflexes</li>
+        <li>Goitre (Hashimoto's)</li>
+      </ul>
+    </div>
+    <div class="section section-tests">
+      <div class="section-label">🧪 Investigations</div>
+      <ul>
+        <li>TSH ↑ (primary), TSH ↓ (secondary)</li>
+        <li>Free T4 ↓</li>
+        <li>Anti-TPO antibodies (Hashimoto's)</li>
+        <li>Anti-thyroglobulin antibodies</li>
+        <li>FBC (normocytic anaemia)</li>
+        <li>Lipid panel (hypercholesterolaemia)</li>
+        <li>ECG (low voltage, bradycardia)</li>
+        <li>Thyroid ultrasound</li>
+      </ul>
+    </div>
+    <div class="section section-treatment full">
+      <div class="section-label">💊 Treatment</div>
+      <ul>
+        <li>Levothyroxine (T4 replacement) — titrated by TSH level</li>
+        <li>Start low dose in elderly or cardiac disease patients</li>
+        <li>Monitor TSH at 6 weeks after starting then annually</li>
+        <li>Hashimoto's: autoimmune condition — no cure, manage with replacement</li>
+        <li>Myxoedema coma: IV T3/T4 + hydrocortisone + ICU admission</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</details>
+
+<!-- ==================== HYPERTHYROIDISM ==================== -->
+<details data-cat="thyroid" data-text="hyperthyroidism graves disease thyrotoxicosis t3 t4 tsh carbimazole ptu radioiodine thyroidectomy heat intolerance weight loss tachycardia tremor exophthalmos goitre">
+<summary>
+  <div class="card-icon" style="background:linear-gradient(135deg,#7c2d12,#991b1b)">🔥</div>
+  <div class="card-title-wrap">
+    <div class="card-title">Hyperthyroidism</div>
+    <div class="card-tag">Thyroid</div>
+  </div>
+  <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+</summary>
+<div class="card-body">
+  <div class="sections-grid">
+    <div class="section section-physio full">
+      <div class="section-label">⚙️ Physiology &amp; Pathophysiology</div>
+      <div class="physio-text">Excess T3/T4 production due to: Graves' disease (TSI/TRAb autoantibodies stimulate the TSH receptor — most common cause), toxic multinodular goitre, toxic adenoma, or subacute thyroiditis (release of pre-formed stored hormone). High T3/T4 suppresses TSH. Results in increased adrenergic sensitivity, accelerated metabolism, and a hyperdynamic cardiovascular state.</div>
+    </div>
+    <div class="section section-symptoms">
+      <div class="section-label">🩺 Clinical Features</div>
+      <ul>
+        <li>Heat intolerance, sweating</li>
+        <li>Weight loss despite increased appetite</li>
+        <li>Tachycardia, palpitations, atrial fibrillation</li>
+        <li>Fine tremor (hands)</li>
+        <li>Anxiety, irritability, insomnia</li>
+        <li>Diarrhoea</li>
+        <li>Goitre (diffuse in Graves')</li>
+        <li>Exophthalmos/proptosis (Graves' only)</li>
+        <li>Pretibial myxoedema (Graves' only)</li>
+        <li>Proximal myopathy</li>
+        <li>Oligomenorrhoea</li>
+      </ul>
+    </div>
+    <div class="section section-tests">
+      <div class="section-label">🧪 Investigations</div>
+      <ul>
+        <li>TSH ↓ (often undetectable)</li>
+        <li>Free T3 and T4 ↑</li>
+        <li>TRAb/TSI (Graves' — positive ~95%)</li>
+        <li>Anti-TPO (may be positive)</li>
+        <li>Thyroid uptake scan: diffuse = Graves'; hot nodule = toxic adenoma; low = thyroiditis</li>
+        <li>ECG (AF, sinus tachycardia)</li>
+        <li>FBC, LFTs</li>
+      </ul>
+    </div>
+    <div class="section section-treatment full">
+      <div class="section-label">💊 Treatment</div>
+      <ul>
+        <li>Antithyroids: carbimazole or PTU (block synthesis)</li>
+        <li>Beta-blockers: propranolol for symptomatic control (tremor, HR)</li>
+        <li>Radioiodine (I-131): definitive treatment — contraindicated in pregnancy</li>
+        <li>Thyroidectomy: for large goitre, pressure symptoms, or malignancy concern</li>
+        <li>Graves' ophthalmopathy: steroids, selenium, orbital decompression</li>
+        <li>Thyroid storm: PTU + potassium iodide + dexamethasone + propranolol + ICU</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</details>
+
+<!-- ==================== HYPERPARATHYROIDISM ==================== -->
+<details data-cat="parathyroid" data-text="hyperparathyroidism pth calcium hypercalcaemia renal stones bones groans moans parathyroidectomy cinacalcet bisphosphonates adenoma">
+<summary>
+  <div class="card-icon" style="background:linear-gradient(135deg,#1a2e1a,#14532d)">🧪</div>
+  <div class="card-title-wrap">
+    <div class="card-title">Hyperparathyroidism</div>
+    <div class="card-tag">Parathyroid</div>
+  </div>
+  <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+</summary>
+<div class="card-body">
+  <div class="sections-grid">
+    <div class="section section-physio full">
+      <div class="section-label">⚙️ Physiology &amp; Pathophysiology</div>
+      <div class="physio-text">Primary: autonomous PTH overproduction — parathyroid adenoma (85%), hyperplasia (14%), carcinoma (1%). PTH acts on bone (↑ osteoclast resorption → Ca²⁺ release), kidney (↑ Ca²⁺ reabsorption, ↓ phosphate reabsorption, ↑ vitamin D activation), and gut (↑ Ca²⁺ absorption via vitamin D). Net result: hypercalcaemia + hypophosphataemia. Secondary: reactive PTH ↑ due to hypocalcaemia (CKD, vitamin D deficiency). Tertiary: autonomous gland after prolonged secondary stimulus (e.g. long-standing CKD).</div>
+    </div>
+    <div class="section section-symptoms">
+      <div class="section-label">🩺 Clinical Features — "Bones, Stones, Groans, Moans"</div>
+      <ul>
+        <li>Bones: bone pain, osteoporosis, fractures</li>
+        <li>Stones: renal calculi (calcium oxalate/phosphate)</li>
+        <li>Groans: nausea, vomiting, constipation, anorexia</li>
+        <li>Moans: depression, cognitive impairment, fatigue</li>
+        <li>Polyuria/polydipsia (nephrogenic DI from hypercalcaemia)</li>
+        <li>Often asymptomatic — incidental finding on bloods</li>
+      </ul>
+    </div>
+    <div class="section section-tests">
+      <div class="section-label">🧪 Investigations</div>
+      <ul>
+        <li>Serum Ca²⁺ ↑ (corrected or ionised)</li>
+        <li>PTH ↑ (primary/tertiary)</li>
+        <li>Phosphate ↓ (primary)</li>
+        <li>24h urinary calcium ↑</li>
+        <li>ALP ↑ (bone involvement)</li>
+        <li>Vitamin D levels</li>
+        <li>Sestamibi parathyroid scan (localise adenoma)</li>
+        <li>DEXA scan (bone density)</li>
+        <li>Renal ultrasound (calculi)</li>
+      </ul>
+    </div>
+    <div class="section section-treatment full">
+      <div class="section-label">💊 Treatment</div>
+      <ul>
+        <li>Asymptomatic primary: monitor (calcium, renal function, DEXA)</li>
+        <li>Surgery (parathyroidectomy): symptomatic, Ca > 2.85 mmol/L, young age, osteoporosis, renal stones</li>
+        <li>Cinacalcet (calcimimetic): for non-surgical candidates</li>
+        <li>Bisphosphonates: bone protection</li>
+        <li>Hypercalcaemic crisis: IV saline + furosemide + IV bisphosphonates</li>
+        <li>Secondary: correct underlying cause + vitamin D/calcium supplementation</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</details>
+
+<!-- ==================== HYPOPARATHYROIDISM ==================== -->
+<details data-cat="parathyroid" data-text="hypoparathyroidism pth hypocalcaemia calcium tetany chvostek trousseau calcitriol vitamin d digeorge carpal spasm seizure">
+<summary>
+  <div class="card-icon" style="background:linear-gradient(135deg,#1e3a5f,#1d4ed8)">❄️</div>
+  <div class="card-title-wrap">
+    <div class="card-title">Hypoparathyroidism</div>
+    <div class="card-tag">Parathyroid</div>
+  </div>
+  <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+</summary>
+<div class="card-body">
+  <div class="sections-grid">
+    <div class="section section-physio full">
+      <div class="section-label">⚙️ Physiology &amp; Pathophysiology</div>
+      <div class="physio-text">Deficient PTH → decreased bone resorption, decreased renal Ca²⁺ reabsorption, decreased active vitamin D production → hypocalcaemia + hyperphosphataemia. Most common cause: inadvertent removal or devascularisation of parathyroid glands during thyroid or neck surgery. Other causes: autoimmune, DiGeorge syndrome (22q11.2 deletion — parathyroid aplasia), hypomagnesaemia (magnesium required for PTH secretion).</div>
+    </div>
+    <div class="section section-symptoms">
+      <div class="section-label">🩺 Clinical Features</div>
+      <ul>
+        <li>Perioral numbness, tingling fingers/toes</li>
+        <li>Tetany: carpopedal spasm</li>
+        <li>Chvostek's sign (facial nerve tap → facial twitch)</li>
+        <li>Trousseau's sign (BP cuff inflated → carpal spasm)</li>
+        <li>Seizures (severe hypocalcaemia)</li>
+        <li>Prolonged QT → arrhythmia</li>
+        <li>Anxiety, depression</li>
+        <li>Cataracts (chronic)</li>
+        <li>Dry skin, brittle nails, hair loss</li>
+      </ul>
+    </div>
+    <div class="section section-tests">
+      <div class="section-label">🧪 Investigations</div>
+      <ul>
+        <li>Serum Ca²⁺ ↓</li>
+        <li>PTH ↓ (diagnostic)</li>
+        <li>Phosphate ↑</li>
+        <li>Magnesium levels</li>
+        <li>ECG (prolonged QT interval)</li>
+        <li>Vitamin D levels</li>
+        <li>Urinary calcium (low)</li>
+      </ul>
+    </div>
+    <div class="section section-treatment full">
+      <div class="section-label">💊 Treatment</div>
+      <ul>
+        <li>Acute severe: IV calcium gluconate (slow IV push — cardiac monitoring)</li>
+        <li>Chronic: oral calcium supplements + calcitriol (active vitamin D — bypasses need for PTH)</li>
+        <li>Correct hypomagnesaemia if present</li>
+        <li>Recombinant PTH (teriparatide): newer option for chronic disease</li>
+        <li>Monitor calcium regularly — avoid over-correction</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</details>
+
+<!-- ==================== TYPE 1 DIABETES ==================== -->
+<details data-cat="diabetes" data-text="type 1 diabetes mellitus insulin autoimmune beta cells islets DKA ketoacidosis polyuria polydipsia polyphagia weight loss GAD antibodies HbA1c CGM pump">
+<summary>
+  <div class="card-icon" style="background:linear-gradient(135deg,#4c0519,#be123c)">🩸</div>
+  <div class="card-title-wrap">
+    <div class="card-title">Type 1 Diabetes</div>
+    <div class="card-tag">Diabetes</div>
+  </div>
+  <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+</summary>
+<div class="card-body">
+  <div class="sections-grid">
+    <div class="section section-physio full">
+      <div class="section-label">⚙️ Physiology &amp; Pathophysiology</div>
+      <div class="physio-text">Autoimmune destruction of pancreatic β-cells (islets of Langerhans), mediated by T-lymphocytes and autoantibodies (anti-GAD, anti-islet cell, anti-insulin). Results in absolute insulin deficiency. Without insulin: cells cannot uptake glucose → hyperglycaemia; unregulated fat breakdown → free fatty acids → ketogenesis → diabetic ketoacidosis (DKA). Glucagon is unopposed. Typically presents in childhood or adolescence but can occur at any age.</div>
+    </div>
+    <div class="section section-symptoms">
+      <div class="section-label">🩺 Clinical Features</div>
+      <ul>
+        <li>Polyuria (osmotic diuresis)</li>
+        <li>Polydipsia (fluid loss compensation)</li>
+        <li>Polyphagia with weight loss</li>
+        <li>Fatigue</li>
+        <li>DKA: nausea, vomiting, abdominal pain</li>
+        <li>Kussmaul breathing (deep, rapid — compensatory)</li>
+        <li>Fruity/ketone breath</li>
+        <li>Altered consciousness (severe DKA)</li>
+        <li>Recurrent infections</li>
+        <li>Blurred vision (osmotic lens changes)</li>
+      </ul>
+    </div>
+    <div class="section section-tests">
+      <div class="section-label">🧪 Investigations</div>
+      <ul>
+        <li>Fasting glucose ≥ 7.0 mmol/L or random ≥ 11.1</li>
+        <li>HbA1c ≥ 48 mmol/mol (6.5%)</li>
+        <li>C-peptide ↓/undetectable (absent β-cell function)</li>
+        <li>Anti-GAD, anti-islet cell, anti-insulin antibodies (positive)</li>
+        <li>DKA: ABG (pH &lt; 7.35, HCO₃ low, anion gap ↑), ketones ↑</li>
+        <li>Urinalysis: glycosuria, ketonuria</li>
+        <li>Annual: HbA1c, lipids, renal function, urine ACR, fundoscopy, foot check</li>
+      </ul>
+    </div>
+    <div class="section section-treatment full">
+      <div class="section-label">💊 Treatment</div>
+      <ul>
+        <li>Lifelong insulin therapy — no oral alternative</li>
+        <li>Multiple Daily Injections (MDI): basal + bolus regimen</li>
+        <li>Insulin pump (CSII): continuous subcutaneous infusion</li>
+        <li>Continuous Glucose Monitoring (CGM)</li>
+        <li>Carbohydrate counting and sick day rules</li>
+        <li>DKA management: IV fluids, insulin infusion, potassium replacement</li>
+        <li>Target HbA1c &lt; 53 mmol/mol (7%)</li>
+        <li>Annual screening: nephropathy, retinopathy, neuropathy, cardiovascular</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</details>
+
+<!-- ==================== TYPE 2 DIABETES ==================== -->
+<details data-cat="diabetes" data-text="type 2 diabetes mellitus insulin resistance metformin SGLT2 GLP1 HbA1c obesity metabolic syndrome acanthosis nigricans neuropathy retinopathy nephropathy">
+<summary>
+  <div class="card-icon" style="background:linear-gradient(135deg,#3b1c0a,#c2410c)">📊</div>
+  <div class="card-title-wrap">
+    <div class="card-title">Type 2 Diabetes</div>
+    <div class="card-tag">Diabetes</div>
+  </div>
+  <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+</summary>
+<div class="card-body">
+  <div class="sections-grid">
+    <div class="section section-physio full">
+      <div class="section-label">⚙️ Physiology &amp; Pathophysiology</div>
+      <div class="physio-text">Combination of peripheral insulin resistance (muscle, liver, adipose tissue) and progressive β-cell dysfunction leading to relative insulin deficiency. Driven by obesity, physical inactivity, and genetic predisposition. Insulin resistance → compensatory hyperinsulinaemia → eventual β-cell exhaustion → hyperglycaemia. Strongly associated with dyslipidaemia and hypertension (metabolic syndrome). Insidious onset — often discovered incidentally on routine blood tests.</div>
+    </div>
+    <div class="section section-symptoms">
+      <div class="section-label">🩺 Clinical Features</div>
+      <ul>
+        <li>Often asymptomatic for many years</li>
+        <li>Polyuria, polydipsia, fatigue (when significantly hyperglycaemic)</li>
+        <li>Recurrent infections (UTI, skin, candida)</li>
+        <li>Slow wound healing</li>
+        <li>Blurred vision</li>
+        <li>Acanthosis nigricans (insulin resistance marker)</li>
+        <li>Peripheral neuropathy (tingling/numbness feet)</li>
+        <li>HHS in severe uncontrolled hyperglycaemia</li>
+      </ul>
+    </div>
+    <div class="section section-tests">
+      <div class="section-label">🧪 Investigations</div>
+      <ul>
+        <li>Fasting glucose ≥ 7.0 or 2h OGTT ≥ 11.1 mmol/L</li>
+        <li>HbA1c ≥ 48 mmol/mol (6.5%)</li>
+        <li>C-peptide: present (reduced in late disease)</li>
+        <li>Lipid panel (dyslipidaemia)</li>
+        <li>Urine albumin:creatinine ratio (microalbuminuria)</li>
+        <li>eGFR (renal function)</li>
+        <li>Annual dilated fundoscopy</li>
+        <li>Annual foot examination</li>
+      </ul>
+    </div>
+    <div class="section section-treatment full">
+      <div class="section-label">💊 Treatment</div>
+      <ul>
+        <li>Lifestyle: weight loss, diet modification, exercise (first-line)</li>
+        <li>Metformin (first-line oral agent)</li>
+        <li>SGLT2 inhibitors (cardio/renal protective): empagliflozin, dapagliflozin</li>
+        <li>GLP-1 agonists (weight loss + CV benefit): semaglutide, dulaglutide</li>
+        <li>DPP-4 inhibitors: saxagliptin, sitagliptin</li>
+        <li>Sulfonylureas: glipizide, glibenclamide</li>
+        <li>Insulin when oral agents insufficient</li>
+        <li>Target HbA1c 53–58 mmol/mol (7–7.5%)</li>
+        <li>CV risk management: statin, antihypertensives, antiplatelet therapy</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</details>
+
+<!-- ==================== DIABETES INSIPIDUS ==================== -->
+<details data-cat="diabetes" data-text="diabetes insipidus ADH vasopressin central nephrogenic DDAVP desmopressin polyuria polydipsia dilute urine hypernatraemia water deprivation test thiazide">
+<summary>
+  <div class="card-icon" style="background:linear-gradient(135deg,#0c2340,#0369a1)">💧</div>
+  <div class="card-title-wrap">
+    <div class="card-title">Diabetes Insipidus</div>
+    <div class="card-tag">Diabetes</div>
+  </div>
+  <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+</summary>
+<div class="card-body">
+  <div class="sections-grid">
+    <div class="section section-physio full">
+      <div class="section-label">⚙️ Physiology &amp; Pathophysiology</div>
+      <div class="physio-text">Central DI: deficiency of ADH (vasopressin) from the posterior pituitary due to trauma, surgery, tumours (craniopharyngioma), inflammation, or idiopathic causes. Nephrogenic DI: renal tubule resistance to ADH (lithium toxicity, hypercalcaemia, CKD, genetic AVPR2/AQP2 mutations). Without ADH action: collecting duct remains impermeable to water → massive dilute urine output (up to 20L/day) → hypernatraemia and dehydration if fluid intake cannot compensate.</div>
+    </div>
+    <div class="section section-symptoms">
+      <div class="section-label">🩺 Clinical Features</div>
+      <ul>
+        <li>Polyuria (large volume, very dilute urine — USG &lt; 1.005)</li>
+        <li>Intense polydipsia</li>
+        <li>Nocturia</li>
+        <li>Dehydration if fluid access restricted</li>
+        <li>Hypernatraemia: irritability, confusion, weakness</li>
+        <li>Growth failure and hyperthermia (children)</li>
+        <li>Enuresis in children</li>
+      </ul>
+    </div>
+    <div class="section section-tests">
+      <div class="section-label">🧪 Investigations</div>
+      <ul>
+        <li>Urine osmolality ↓ (&lt; 300 mOsm/kg)</li>
+        <li>Serum osmolality ↑ (&gt; 295)</li>
+        <li>Serum Na⁺ ↑ (hypernatraemia)</li>
+        <li>Serum ADH levels (low in central DI)</li>
+        <li>Water deprivation test: failure to concentrate urine confirms DI</li>
+        <li>DDAVP challenge: response = central DI; no response = nephrogenic</li>
+        <li>MRI brain: absent posterior pituitary bright spot (central DI)</li>
+      </ul>
+    </div>
+    <div class="section section-treatment full">
+      <div class="section-label">💊 Treatment</div>
+      <ul>
+        <li>Central DI: DDAVP (desmopressin) — intranasal, oral, or subcutaneous</li>
+        <li>Nephrogenic DI: treat underlying cause (stop lithium, correct hypercalcaemia)</li>
+        <li>Thiazide diuretics paradoxically reduce urine output in nephrogenic DI</li>
+        <li>Low salt/low protein diet (reduces renal solute load)</li>
+        <li>Adequate hydration is crucial in all forms</li>
+        <li>Indomethacin (adjunct in nephrogenic DI)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</details>
+
+<!-- ==================== SIADH ==================== -->
+<details data-cat="pituitary" data-text="SIADH inappropriate ADH vasopressin hyponatraemia sodium euvolaemic fluid restriction hypertonic saline tolvaptan vaptans SSRIs SCLC lung cancer">
+<summary>
+  <div class="card-icon" style="background:linear-gradient(135deg,#1e1b4b,#4338ca)">🌊</div>
+  <div class="card-title-wrap">
+    <div class="card-title">SIADH</div>
+    <div class="card-tag">Pituitary / Systemic</div>
+  </div>
+  <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+</summary>
+<div class="card-body">
+  <div class="sections-grid">
+    <div class="section section-physio full">
+      <div class="section-label">⚙️ Physiology &amp; Pathophysiology</div>
+      <div class="physio-text">Syndrome of Inappropriate Antidiuretic Hormone secretion — excess ADH activity despite low serum osmolality. Causes: CNS disease (meningitis, stroke, trauma), pulmonary disease (TB, pneumonia), ectopic ADH production (SCLC — small cell lung cancer), drugs (SSRIs, carbamazepine, cyclophosphamide, opioids), pain, nausea. ADH drives water reabsorption → dilutional hyponatraemia. Kidneys continue to excrete sodium (urine Na⁺ > 40 mmol/L) despite low serum Na⁺. Patient is euvolaemic — no oedema.</div>
+    </div>
+    <div class="section section-symptoms">
+      <div class="section-label">🩺 Clinical Features</div>
+      <ul>
+        <li>Often asymptomatic in mild hyponatraemia</li>
+        <li>Nausea and vomiting</li>
+        <li>Headache</li>
+        <li>Confusion, cognitive impairment</li>
+        <li>Lethargy, fatigue</li>
+        <li>Seizures (Na⁺ &lt; 120 mmol/L)</li>
+        <li>Coma (severe)</li>
+        <li>Muscle cramps</li>
+        <li>NO peripheral oedema (euvolaemic)</li>
+      </ul>
+    </div>
+    <div class="section section-tests">
+      <div class="section-label">🧪 Investigations</div>
+      <ul>
+        <li>Serum Na⁺ ↓ (hyponatraemia)</li>
+        <li>Serum osmolality ↓ (&lt; 275 mOsm/kg)</li>
+        <li>Urine osmolality ↑ (&gt; 100 mOsm/kg — inappropriately concentrated)</li>
+        <li>Urine Na⁺ ↑ (&gt; 40 mmol/L)</li>
+        <li>Thyroid and adrenal function (exclude other causes)</li>
+        <li>Chest X-ray (pneumonia, malignancy)</li>
+        <li>CT brain, CT chest (SCLC)</li>
+      </ul>
+    </div>
+    <div class="section section-treatment full">
+      <div class="section-label">💊 Treatment</div>
+      <ul>
+        <li>Treat underlying cause (most important step)</li>
+        <li>Fluid restriction &lt; 1000–1500 mL/day — mainstay of management</li>
+        <li>Severe symptomatic (seizures/coma): 3% hypertonic saline — controlled correction max 8–10 mmol/L/24h</li>
+        <li>Avoid rapid correction → osmotic demyelination syndrome</li>
+        <li>Vaptans (tolvaptan, conivaptan): V2 receptor antagonists — selective water excretion</li>
+        <li>Demeclocycline: blocks ADH action in kidney (second-line)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</details>
+
+<!-- ==================== ACROMEGALY ==================== -->
+<details data-cat="pituitary" data-text="acromegaly growth hormone GH IGF-1 pituitary adenoma macroadenoma bitemporal hemianopia gigantism octreotide lanreotide pegvisomant transsphenoidal carpal tunnel sleep apnoea">
+<summary>
+  <div class="card-icon" style="background:linear-gradient(135deg,#1c1917,#78350f)">📏</div>
+  <div class="card-title-wrap">
+    <div class="card-title">Acromegaly</div>
+    <div class="card-tag">Pituitary</div>
+  </div>
+  <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+</summary>
+<div class="card-body">
+  <div class="sections-grid">
+    <div class="section section-physio full">
+      <div class="section-label">⚙️ Physiology &amp; Pathophysiology</div>
+      <div class="physio-text">Excess Growth Hormone (GH) secretion in adults — almost always from a GH-secreting pituitary macroadenoma. GH stimulates IGF-1 (insulin-like growth factor-1) production from the liver, which mediates most growth effects. After epiphyseal fusion → acral and soft tissue enlargement (not height increase). Pre-fusion in children → gigantism. Excess GH causes insulin resistance, organomegaly, and metabolic disturbances including hypertension and diabetes.</div>
+    </div>
+    <div class="section section-symptoms">
+      <div class="section-label">🩺 Clinical Features</div>
+      <ul>
+        <li>Enlarged hands and feet (ring/shoe size increase)</li>
+        <li>Coarse facial features: prominent brow, jaw prognathism</li>
+        <li>Macroglossia, increased interdental spacing</li>
+        <li>Hyperhidrosis (excessive sweating)</li>
+        <li>Arthralgia, carpal tunnel syndrome</li>
+        <li>Hypertension, cardiomegaly, cardiac failure</li>
+        <li>Sleep apnoea (obstructive)</li>
+        <li>Diabetes mellitus (insulin resistance)</li>
+        <li>Headache</li>
+        <li>Bitemporal hemianopia (optic chiasm compression)</li>
+        <li>Goitre, colonic polyps</li>
+      </ul>
+    </div>
+    <div class="section section-tests">
+      <div class="section-label">🧪 Investigations</div>
+      <ul>
+        <li>IGF-1 ↑ (best screening test — stable level)</li>
+        <li>GH oral glucose tolerance test (OGTT): failure to suppress GH &lt; 1 μg/L confirms diagnosis</li>
+        <li>MRI pituitary (macroadenoma)</li>
+        <li>Visual field testing (Goldmann perimetry)</li>
+        <li>Echo (cardiomegaly), sleep study (OSA)</li>
+        <li>Colonoscopy (polyps), fasting glucose/HbA1c</li>
+      </ul>
+    </div>
+    <div class="section section-treatment full">
+      <div class="section-label">💊 Treatment</div>
+      <ul>
+        <li>Surgery: transsphenoidal resection (first-line if feasible)</li>
+        <li>Somatostatin analogues: octreotide, lanreotide (medical first-line if surgery incomplete)</li>
+        <li>GH receptor antagonist: pegvisomant (if SSA-resistant)</li>
+        <li>Dopamine agonists: cabergoline (modest efficacy, adjunct)</li>
+        <li>Radiotherapy: adjunctive (slow onset — months to years)</li>
+        <li>Target: normal IGF-1, GH &lt; 1 μg/L on OGTT</li>
+        <li>Treat comorbidities: HTN, DM, OSA, carpal tunnel</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</details>
+
+<!-- ==================== CUSHING'S DISEASE ==================== -->
+<details data-cat="pituitary" data-text="cushing disease syndrome cortisol ACTH pituitary adenoma corticotroph dexamethasone suppression test moon face buffalo hump central obesity purple striae metyrapone ketoconazole transsphenoidal">
+<summary>
+  <div class="card-icon" style="background:linear-gradient(135deg,#2e1065,#6d28d9)">🌙</div>
+  <div class="card-title-wrap">
+    <div class="card-title">Cushing's Disease</div>
+    <div class="card-tag">Pituitary</div>
+  </div>
+  <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+</summary>
+<div class="card-body">
+  <div class="sections-grid">
+    <div class="section section-physio full">
+      <div class="section-label">⚙️ Physiology &amp; Pathophysiology</div>
+      <div class="physio-text">Cushing's Disease (capital D) = ACTH-secreting pituitary adenoma (corticotroph adenoma) → bilateral adrenal hyperplasia → excess cortisol. Cushing's Syndrome (broader) = any cause of cortisol excess: exogenous glucocorticoids (most common overall), ectopic ACTH (SCLC), adrenal adenoma/carcinoma. Excess cortisol: gluconeogenesis ↑ (hyperglycaemia), protein catabolism (myopathy, thin skin, purple striae), fat redistribution (central obesity, buffalo hump, moon face), immunosuppression, and mineralocorticoid activity (↑ BP, hypokalaemia).</div>
+    </div>
+    <div class="section section-symptoms">
+      <div class="section-label">🩺 Clinical Features</div>
+      <ul>
+        <li>Central obesity with thin limbs</li>
+        <li>Moon face (facial plethora/rounding)</li>
+        <li>Buffalo hump (dorsocervical fat pad)</li>
+        <li>Purple striae (abdominal)</li>
+        <li>Proximal myopathy (difficulty rising from chair)</li>
+        <li>Thin skin, easy bruising</li>
+        <li>Hypertension, hyperglycaemia/DM</li>
+        <li>Osteoporosis, fractures</li>
+        <li>Hirsutism, acne (androgen excess)</li>
+        <li>Amenorrhoea</li>
+        <li>Depression, mood changes</li>
+      </ul>
+    </div>
+    <div class="section section-tests">
+      <div class="section-label">🧪 Investigations</div>
+      <ul>
+        <li>24h urinary free cortisol ↑</li>
+        <li>Late-night salivary cortisol ↑ (loss of diurnal rhythm)</li>
+        <li>1mg overnight dexamethasone suppression test: failure to suppress (cortisol &gt; 50 nmol/L)</li>
+        <li>Serum ACTH: ↑ (ACTH-dependent), ↓ (adrenal adenoma/exogenous)</li>
+        <li>High-dose dexamethasone suppression: suppresses in Cushing's Disease; not in ectopic ACTH</li>
+        <li>MRI pituitary (corticotroph adenoma — often small)</li>
+        <li>Inferior petrosal sinus sampling (IPSS): most accurate localisation</li>
+        <li>CT adrenals/chest (ectopic ACTH/adrenal tumour)</li>
+      </ul>
+    </div>
+    <div class="section section-treatment full">
+      <div class="section-label">💊 Treatment</div>
+      <ul>
+        <li>Cushing's Disease: transsphenoidal pituitary surgery (first-line)</li>
+        <li>Radiotherapy if surgery incomplete</li>
+        <li>Medical steroidogenesis inhibitors: metyrapone, ketoconazole, mifepristone</li>
+        <li>Bilateral adrenalectomy (risk of Nelson's syndrome — ACTH-secreting tumour expands)</li>
+        <li>Ectopic ACTH: treat primary tumour</li>
+        <li>Adrenal adenoma: laparoscopic adrenalectomy</li>
+        <li>Post-op: hydrocortisone replacement (suppressed HPA axis) → gradual taper</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</details>
+
+<!-- ==================== PROLACTINOMA ==================== -->
+<details data-cat="pituitary" data-text="prolactinoma prolactin pituitary adenoma galactorrhoea amenorrhoea infertility impotence cabergoline bromocriptine dopamine agonist micro macro bitemporal hemianopia hypogonadism">
+<summary>
+  <div class="card-icon" style="background:linear-gradient(135deg,#1a1533,#7c3aed)">🔬</div>
+  <div class="card-title-wrap">
+    <div class="card-title">Prolactinoma</div>
+    <div class="card-tag">Pituitary</div>
+  </div>
+  <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+</summary>
+<div class="card-body">
+  <div class="sections-grid">
+    <div class="section section-physio full">
+      <div class="section-label">⚙️ Physiology &amp; Pathophysiology</div>
+      <div class="physio-text">Most common pituitary adenoma. Arises from prolactin-secreting lactotroph cells. Microprolactinoma (&lt; 10mm) more common in women; macroprolactinoma (&gt; 10mm) more common in men (diagnosed later due to delayed symptoms). Excess prolactin inhibits GnRH pulsatility → reduced LH/FSH → hypogonadism. Causes of raised prolactin (other than prolactinoma): pregnancy, breastfeeding, hypothyroidism (TRH stimulates PRL), dopamine-blocking drugs (antipsychotics, metoclopramide), and stalk compression from any pituitary mass.</div>
+    </div>
+    <div class="section section-symptoms">
+      <div class="section-label">🩺 Clinical Features</div>
+      <ul>
+        <li>Women: galactorrhoea (spontaneous milk production)</li>
+        <li>Amenorrhoea / oligomenorrhoea</li>
+        <li>Infertility, loss of libido</li>
+        <li>Men: erectile dysfunction, reduced libido</li>
+        <li>Infertility (reduced sperm count)</li>
+        <li>Galactorrhoea (less common in men)</li>
+        <li>Both sexes: osteoporosis (from hypogonadism)</li>
+        <li>Macroprolactinoma: headache, bitemporal hemianopia, hypopituitarism</li>
+      </ul>
+    </div>
+    <div class="section section-tests">
+      <div class="section-label">🧪 Investigations</div>
+      <ul>
+        <li>Serum prolactin ↑ (&gt; 5000 mIU/L suggests prolactinoma; &gt; 10,000 = macroprolactinoma)</li>
+        <li>Exclude: pregnancy (βhCG), hypothyroidism (TSH), drug history</li>
+        <li>MRI pituitary (size, chiasm compression)</li>
+        <li>Visual field testing (macroprolactinoma)</li>
+        <li>LH, FSH, testosterone/oestradiol (hypogonadism)</li>
+        <li>DEXA scan (bone density)</li>
+      </ul>
+    </div>
+    <div class="section section-treatment full">
+      <div class="section-label">💊 Treatment</div>
+      <ul>
+        <li>Dopamine agonists: cabergoline (first-line, once/twice weekly oral) — reduces PRL and tumour size</li>
+        <li>Bromocriptine (alternative — more side effects)</li>
+        <li>Microprolactinoma: medical treatment preferred; trial withdrawal after 2 years if PRL normal</li>
+        <li>Macroprolactinoma: DA agonist first; surgery (transsphenoidal) if resistant or intolerant</li>
+        <li>Radiotherapy: adjunctive</li>
+        <li>Pregnancy: withhold cabergoline (monitor for tumour expansion in macroprolactinoma)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</details>
+
+<!-- ==================== HYPOADRENALISM ==================== -->
+<details data-cat="adrenal" data-text="hypoadrenalism Addison disease adrenal insufficiency cortisol aldosterone ACTH synacthen test hydrocortisone fludrocortisone adrenal crisis hyperpigmentation hypotension hyponatraemia">
+<summary>
+  <div class="card-icon" style="background:linear-gradient(135deg,#1c2030,#1e40af)">⬇️</div>
+  <div class="card-title-wrap">
+    <div class="card-title">Hypoadrenalism (Addison's Disease)</div>
+    <div class="card-tag">Adrenal</div>
+  </div>
+  <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+</summary>
+<div class="card-body">
+  <div class="sections-grid">
+    <div class="section section-physio full">
+      <div class="section-label">⚙️ Physiology &amp; Pathophysiology</div>
+      <div class="physio-text">Primary adrenal insufficiency (Addison's disease): autoimmune destruction of adrenal cortex (70–80% in developed world) → deficiency of BOTH cortisol AND aldosterone. Other causes: TB (historically), metastases, adrenal haemorrhage (Waterhouse-Friderichsen — meningococcal), adrenoleukodystrophy. Secondary: ACTH deficiency from pituitary disease → cortisol only low (aldosterone preserved via renin-angiotensin). Tertiary: iatrogenic — sudden cessation of long-term glucocorticoids. Inadequate cortisol = impaired stress response, hypoglycaemia, hypotension.</div>
+    </div>
+    <div class="section section-symptoms">
+      <div class="section-label">🩺 Clinical Features</div>
+      <ul>
+        <li>Fatigue, weakness, lethargy</li>
+        <li>Weight loss, anorexia</li>
+        <li>Nausea, vomiting, diarrhoea</li>
+        <li>Hypotension, postural dizziness</li>
+        <li>Hyponatraemia (↓ Na⁺)</li>
+        <li>Hyperkalaemia (↑ K⁺) — primary only</li>
+        <li>Hypoglycaemia</li>
+        <li>Hyperpigmentation (buccal mucosa, scars, skin creases) — primary only (↑ ACTH/MSH)</li>
+        <li>Loss of axillary/pubic hair (women)</li>
+        <li>Adrenal crisis: extreme hypotension, shock, fever, confusion — life-threatening</li>
+      </ul>
+    </div>
+    <div class="section section-tests">
+      <div class="section-label">🧪 Investigations</div>
+      <ul>
+        <li>8am serum cortisol ↓ (&lt; 100 nmol/L highly suggestive)</li>
+        <li>Short Synacthen Test: 250μg ACTH given; cortisol &lt; 500 nmol/L at 30–60 min = impaired response (gold standard)</li>
+        <li>ACTH ↑ (primary), ↓ (secondary)</li>
+        <li>Renin ↑, aldosterone ↓ (primary)</li>
+        <li>Electrolytes: Na⁺ ↓, K⁺ ↑ (primary)</li>
+        <li>Anti-adrenal antibodies (21-hydroxylase) — autoimmune</li>
+        <li>CT adrenals (calcification in TB/haemorrhage)</li>
+        <li>MRI pituitary (secondary insufficiency)</li>
+      </ul>
+    </div>
+    <div class="section section-treatment full">
+      <div class="section-label">💊 Treatment</div>
+      <ul>
+        <li>Cortisol replacement: hydrocortisone 15–25 mg/day (split BD-TDS, mimicking diurnal rhythm)</li>
+        <li>Mineralocorticoid: fludrocortisone (primary Addison's only)</li>
+        <li>Sick day rules: double/triple dose during illness, surgery, or physiological stress</li>
+        <li>Adrenal crisis: IV hydrocortisone 100mg bolus + IV saline + glucose — emergency</li>
+        <li>Medical alert bracelet essential</li>
+        <li>Annual review: BP, electrolytes, weight, bone density</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</details>
+
+<!-- ==================== HYPERADRENALISM ==================== -->
+<details data-cat="adrenal" data-text="hyperadrenalism Conn syndrome primary hyperaldosteronism phaeochromocytoma congenital adrenal hyperplasia CAH 21-hydroxylase aldosterone renin hypertension hypokalaemia catecholamines metanephrines spironolactone adrenalectomy">
+<summary>
+  <div class="card-icon" style="background:linear-gradient(135deg,#3b0764,#a21caf)">⬆️</div>
+  <div class="card-title-wrap">
+    <div class="card-title">Hyperadrenalism</div>
+    <div class="card-tag">Adrenal</div>
+  </div>
+  <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+</summary>
+<div class="card-body">
+  <div class="sections-grid">
+    <div class="section section-physio full">
+      <div class="section-label">⚙️ Physiology &amp; Pathophysiology</div>
+      <div class="physio-text">Three main patterns of adrenal excess: (1) Excess glucocorticoids → Cushing's Syndrome (see dedicated card). (2) Primary Hyperaldosteronism (Conn's syndrome): autonomous aldosterone from adrenal adenoma (60%) or bilateral hyperplasia → Na⁺ and water retention, K⁺ excretion → hypertension + hypokalaemia. (3) Phaeochromocytoma: catecholamine-secreting tumour of adrenal medulla (90%) or extra-adrenal paraganglia → episodic or sustained hypertension. Also: Congenital Adrenal Hyperplasia (CAH) — 21-hydroxylase deficiency blocks cortisol synthesis → ACTH ↑ → androgen excess.</div>
+    </div>
+    <div class="section section-symptoms">
+      <div class="section-label">🩺 Clinical Features</div>
+      <ul>
+        <li>Conn's: hypertension (often resistant), hypokalaemia (weakness, cramps, polyuria), minimal oedema</li>
+        <li>Phaeochromocytoma: paroxysmal hypertension, headache, sweating, palpitations (classic triad), pallor</li>
+        <li>CAH (21-hydroxylase): virilisation in females, ambiguous genitalia at birth, salt-wasting crisis in neonates, precocious puberty</li>
+        <li>For glucocorticoid excess features — see Cushing's Disease card</li>
+      </ul>
+    </div>
+    <div class="section section-tests">
+      <div class="section-label">🧪 Investigations</div>
+      <ul>
+        <li>Conn's: aldosterone-to-renin ratio (ARR &gt; 30) — screening; confirmatory salt loading test; CT adrenals; adrenal vein sampling (lateralise)</li>
+        <li>Phaeochromocytoma: 24h urinary metanephrines + catecholamines ↑; plasma metanephrines; CT/MRI adrenals; MIBG scan</li>
+        <li>CAH: 17-hydroxyprogesterone ↑; ACTH stimulation test; genetic testing</li>
+      </ul>
+    </div>
+    <div class="section section-treatment full">
+      <div class="section-label">💊 Treatment</div>
+      <ul>
+        <li>Conn's adenoma: laparoscopic adrenalectomy (curative)</li>
+        <li>Bilateral hyperplasia: spironolactone (mineralocorticoid antagonist) or eplerenone</li>
+        <li>Phaeochromocytoma: alpha-blockade FIRST (phenoxybenzamine), then beta-blockade, then laparoscopic adrenalectomy — order matters to prevent hypertensive crisis</li>
+        <li>CAH: glucocorticoid replacement (suppresses excess ACTH/androgen drive) + fludrocortisone if salt-wasting</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</details>
+
+<!-- ==================== MEN ==================== -->
+<details data-cat="neoplasia" data-text="multiple endocrine neoplasia MEN1 MEN2 Wermer Sipple RET MEN1 gene parathyroid pancreatic NET gastrinoma insulinoma pituitary prolactinoma medullary thyroid carcinoma phaeochromocytoma marfanoid">
+<summary>
+  <div class="card-icon" style="background:linear-gradient(135deg,#1a2e1a,#064e3b)">🧬</div>
+  <div class="card-title-wrap">
+    <div class="card-title">Multiple Endocrine Neoplasia (MEN)</div>
+    <div class="card-tag">Neoplasia</div>
+  </div>
+  <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+</summary>
+<div class="card-body">
+  <div class="sections-grid">
+    <div class="section section-physio full">
+      <div class="section-label">⚙️ Physiology &amp; Pathophysiology</div>
+      <div class="physio-text">MEN syndromes are hereditary autosomal dominant disorders causing multiple synchronous endocrine tumours. MEN1 (Wermer's): MEN1 tumour suppressor gene mutation → parathyroid hyperplasia/adenoma (95%), pancreatic NETs (50–70% — gastrinoma, insulinoma), pituitary adenoma (30–40% — prolactinoma most common). MEN2A (Sipple): RET proto-oncogene mutation → medullary thyroid carcinoma (MTC, ~100%), phaeochromocytoma (50%), hyperparathyroidism (20%). MEN2B: RET mutation → MTC (~100%, aggressive early onset), phaeochromocytoma, marfanoid habitus, mucosal neuromas — NO parathyroid involvement.</div>
+    </div>
+    <div class="section section-symptoms">
+      <div class="section-label">🩺 Clinical Features</div>
+      <ul>
+        <li>MEN1: recurrent kidney stones (hypercalcaemia), peptic ulcers (Zollinger-Ellison from gastrinoma), hypoglycaemia (insulinoma), visual changes/galactorrhoea (pituitary)</li>
+        <li>MEN2A: neck mass/goitre (MTC), episodic hypertension/sweating (phaeochromocytoma), kidney stones (hyperparathyroidism)</li>
+        <li>MEN2B: mucosal neuromas (lips, tongue), marfanoid body habitus, neck mass, adrenergic symptoms — youngest age of MTC onset</li>
+      </ul>
+    </div>
+    <div class="section section-tests">
+      <div class="section-label">🧪 Investigations</div>
+      <ul>
+        <li>Genetic testing: MEN1 gene / RET mutation (essential for family screening)</li>
+        <li>Calcium, PTH (hyperparathyroidism)</li>
+        <li>Fasting gastrin (gastrinoma), glucose/insulin ratio (insulinoma)</li>
+        <li>Serum calcitonin ↑ (MTC marker)</li>
+        <li>Urine/plasma metanephrines (phaeochromocytoma)</li>
+        <li>MRI pituitary, CT pancreas/chest/abdomen</li>
+      </ul>
+    </div>
+    <div class="section section-treatment full">
+      <div class="section-label">💊 Treatment</div>
+      <ul>
+        <li>MEN1: surveillance + treat each tumour as it arises; parathyroidectomy; PPIs for Zollinger-Ellison; resect symptomatic NETs</li>
+        <li>MEN2: prophylactic thyroidectomy — timing by risk: MEN2B in first 6 months of life; MEN2A by age 5</li>
+        <li>Always treat phaeochromocytoma BEFORE thyroid surgery</li>
+        <li>Genetic counselling and family screening for all first-degree relatives</li>
+        <li>Annual biochemical surveillance for mutation carriers</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</details>
+
+<!-- ==================== THYROID NEOPLASMS ==================== -->
+<details data-cat="neoplasia" data-text="thyroid neoplasm papillary follicular medullary anaplastic carcinoma thyroidectomy radioiodine BRAF RET FNA FNAB TIRADS calcitonin thyroglobulin lymph node metastasis prognosis">
+<summary>
+  <div class="card-icon" style="background:linear-gradient(135deg,#1a0a0a,#991b1b)">🎗️</div>
+  <div class="card-title-wrap">
+    <div class="card-title">Thyroid Neoplasms</div>
+    <div class="card-tag">Neoplasia</div>
+  </div>
+  <svg class="chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+</summary>
+<div class="card-body">
+  <div class="sections-grid">
+    <div class="section section-physio full">
+      <div class="section-label">⚙️ Pathophysiology &amp; Classification</div>
+      <div class="physio-text">Thyroid neoplasms range from benign to highly malignant. Well-differentiated (follicular epithelium origin): Papillary thyroid carcinoma (PTC, 80%) — BRAF V600E mutation, indolent, lymphatic spread, excellent prognosis (&gt;95% 10-year survival). Follicular thyroid carcinoma (FTC, 10%) — RAS mutation, haematogenous spread (bone, lung), cannot distinguish from adenoma on FNA alone (requires capsular invasion on histology). Medullary thyroid carcinoma (MTC, 5%) — arises from C-cells (calcitonin-secreting), sporadic or MEN2-associated, RET mutation. Anaplastic (&lt;2%) — rapidly fatal, dedifferentiated, local invasion, median survival ~5 months. Benign: follicular adenoma — most common thyroid tumour overall.</div>
+    </div>
+    <div class="section section-symptoms">
+      <div class="section-label">🩺 Clinical Features</div>
+      <ul>
+        <li>Painless thyroid nodule (most common presentation)</li>
+        <li>Neck mass — solid, hard, irregular (malignant features)</li>
+        <li>Hoarseness (recurrent laryngeal nerve invasion)</li>
+        <li>Dysphagia, dyspnoea (tracheal/oesophageal compression)</li>
+        <li>Cervical lymphadenopathy (PTC — lymphatic spread)</li>
+        <li>Bone pain, fractures (FTC — haematogenous mets)</li>
+        <li>Diarrhoea, flushing (MTC — calcitonin excess)</li>
+        <li>Rapid-growing hard mass (anaplastic — surgical emergency)</li>
+      </ul>
+    </div>
+    <div class="section section-tests">
+      <div class="section-label">🧪 Investigations</div>
+      <ul>
+        <li>Thyroid function tests (usually normal)</li>
+        <li>Serum calcitonin ↑ (MTC), CEA ↑ (MTC)</li>
+        <li>Thyroid ultrasound: TIRADS classification (size, echogenicity, margins, microcalcifications)</li>
+        <li>Fine Needle Aspiration Biopsy (FNAB): cytology — Bethesda classification (I–VI)</li>
+        <li>CT neck/chest: staging, tracheal involvement</li>
+        <li>Whole-body radioiodine scan (PTC/FTC post-thyroidectomy)</li>
+        <li>RET mutation testing (MTC — family screening)</li>
+        <li>BRAF mutation testing (PTC — prognostic)</li>
+      </ul>
+    </div>
+    <div class="section section-treatment full">
+      <div class="section-label">💊 Treatment by Subtype</div>
+      <ul>
+        <li>Benign nodule: ultrasound surveillance, repeat FNA if features change</li>
+        <li>PTC: total thyroidectomy + I-131 radioiodine ablation + TSH suppression (levothyroxine); excellent prognosis</li>
+        <li>FTC: total thyroidectomy + I-131 + TSH suppression</li>
+        <li>MTC: total thyroidectomy + prophylactic central neck dissection; I-131 NOT effective; vandetanib/cabozantinib for advanced disease</li>
+        <li>Anaplastic: rarely curative; palliative RT; lenvatinib/dabrafenib if BRAF+; clinical trials</li>
+        <li>Follow-up: thyroglobulin (PTC/FTC tumour marker), calcitonin (MTC), annual neck ultrasound</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</details>
+
+</div><!-- end cardContainer -->
+
+<div class="no-results" id="noResults" style="display:none">
+  <div class="icon">🔬</div>
+  <div>No conditions match your search.</div>
+</div>
+
+</main>
+
+<script>
+let activeFilter = 'all';
+const cards = document.querySelectorAll('details[data-cat]');
+const badge = document.getElementById('countBadge');
+const noResults = document.getElementById('noResults');
+const total = cards.length;
+
+function updateCount(n) {
+  badge.textContent = n + ' condition' + (n !== 1 ? 's' : '');
+}
+
+function applyFilters() {
+  const query = document.getElementById('search').value.toLowerCase().trim();
+  let shown = 0;
+  cards.forEach(card => {
+    const cat = card.dataset.cat;
+    const text = (card.dataset.text + ' ' + card.innerText).toLowerCase();
+    const matchCat = activeFilter === 'all' || cat === activeFilter;
+    const matchSearch = !query || text.includes(query);
+    if (matchCat && matchSearch) {
+      card.style.display = '';
+      shown++;
+    } else {
+      card.style.display = 'none';
+    }
+  });
+  noResults.style.display = shown === 0 ? 'block' : 'none';
+  updateCount(shown);
+}
+
+document.getElementById('search').addEventListener('input', applyFilters);
+
+document.getElementById('filterRow').addEventListener('click', function(e) {
+  if (!e.target.classList.contains('filter-btn')) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  e.target.classList.add('active');
+  activeFilter = e.target.dataset.cat;
+  applyFilters();
+});
+
+updateCount(total);
+</script>
+</body>
+</html>
